@@ -7,9 +7,14 @@
 ## 尘百jar插件版
 - 原作者为海曼（初代rsc插件），后由hershate改为jar版本
 - 由养坤场管理员提修复了大量bug以及一些优化
+- jar版本相较rsc的脚本驱动拥有更好的性能！
 - 以上操作均为ai操作，本人几乎没有编程基础，不喜勿喷。
 - 但是可以保证的是，已经在本地测试服经过一段时间的测试，目前没有遇到其他bug
 - 如果遇到问题，欢迎加我的qq`1424136122`或者提issue反馈，我会尽力解决
+
+## 下载
+
+[![构建状态](https://builds.guizhanss.com/api/badge/ykcgly/WorldTaste-Plugin/master/latest)](https://builds.guizhanss.com/ykcgly/WorldTaste-Plugin/master)
 
 ## 前置依赖
 
