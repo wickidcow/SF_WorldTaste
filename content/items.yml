@@ -321,6 +321,10 @@ WORLDTASTE_TEXING:
       - "&e增加了种子的放置校验"
       - "&7&m不能刷物了^_^"
       - "&e潜行右键可以将食物放置在地面"
+      - "&e2026.8.27"
+      - "&b修了两天没修好对jeg补全的兼容"
+      - "&b干脆直接内置一个吧o(*￣︶￣*)o"
+      - "&f为一些机器增加了配方补全功能。终于不用一个个手放了"
     material: NETHER_STAR
   placeable: false
   recipe_type: 'NULL'
