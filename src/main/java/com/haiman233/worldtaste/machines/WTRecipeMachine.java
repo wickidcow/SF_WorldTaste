@@ -58,8 +58,11 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         this.sfPrune = computeSfPrune(recipes);
         this.menu = menu;
         this.hideAll = hideAll;
+        // 默认进度条用打火石（可损坏物品）：Slimefun 的 updateProgressbar 会以耐久条 + 进度百分比 + 剩余
+        // 时间呈现，比静态玻璃板更醒目（对齐 Slimefun 本体电力机器 ElectricSmeltery 等）。菜单配置的
+        // progressbar 物品仍优先（menus.yml 每机器可覆盖）。
         this.progressBar = (menu != null && menu.progressItem != null)
-                ? menu.progressItem : new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+                ? menu.progressItem : new ItemStack(Material.FLINT_AND_STEEL);
         setProcessingSpeed(Math.max(1, speed));
         setCapacity(Math.max(1, capacity));
         setEnergyConsumption(Math.max(1, Math.min(consumption, Math.max(1, capacity))));
@@ -75,14 +78,21 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     /** 全部配方（供大配方菜单展示）。 */
     public List<WTRecipe> getRecipes() { return recipes; }
 
+    /** 校验当前机器输入能否匹配任一配方（配方补全后的验证，不消耗）。 */
+    public boolean canMatch(BlockMenu inv) {
+        return findMatch(inv) != null;
+    }
+
     @Override
     public int[] getOutputSlots() { return outputSlots; }
 
     @Override
     public void postRegister() {
         super.postRegister();
-        // 配方补全由自定义 RecipeFillMenu 提供（JEG 补全只能填合成配方，对机器工作配方无效），
-        // 不再向 JEG 注册补全槽位。
+        // 配方补全统一走自定义补全按钮（RecipeFillMenu），不再向 JEG 注册配方补全：
+        // JEG Build 205 对绑定槽配方存在循环左移缺陷（填充顺序与 GUI 布局不一致），
+        // 其补全按钮也会与自定义补全按钮重复。JEG 仍保留用于指南配方展示（大配方菜单），
+        // 由 JegHook.openGuide 等按需调用。
     }
 
     @Override
@@ -140,14 +150,35 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
                 preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
         }
-        // 配方补全按钮：找一个非功能/非装饰的空槽（覆盖背景）
+        // 配方补全按钮（自定义：可完整选择机器工作配方；JEG 配方补全仅按物品展示配方，大型配方不完整）
         int fillSlot = -1;
-        for (int s : new int[]{53, 52, 8, 17, 26, 35, 44}) {
+        for (int s : new int[]{53, 52, 8, 17, 26, 35, 44, 7, 16, 25, 43, 51, 0}) {
             if (!functional.contains(s) && !placed.contains(s) && !extra.contains(s)) { fillSlot = s; break; }
         }
+        if (fillSlot < 0) {
+            for (int s2 = 0; s2 < 54; s2++) {
+                if (!functional.contains(s2) && !placed.contains(s2) && !extra.contains(s2)) { fillSlot = s2; break; }
+            }
+
+        // GUI 全被功能/装饰占满（如恒温陈酿皿 54 格全满）：覆盖一个边缘装饰槽（仅装饰显示，不影响功能）
+        if (fillSlot < 0) {
+            for (int s3 : new int[]{53, 52, 8, 17, 26, 35, 44, 43, 51, 0}) {
+                if (placed.contains(s3) && !functional.contains(s3) && !extra.contains(s3)) { fillSlot = s3; break; }
+            }
+        }
+        }
+        // 配方补全按钮：所有配方机器显示。小型机器原用 JEG 配方补全书，但 JEG Build 205
+        // 对绑定槽配方存在循环左移缺陷（填充顺序与 GUI 布局不一致），统一改用自定义精确补全
         if (fillSlot >= 0) {
             preset.addItem(fillSlot, fillButton(), (player, s, cursor, action) -> {
-                com.haiman233.worldtaste.guide.RecipeFillMenu.open(player, WTRecipeMachine.this);
+                me.mrCookieSlime.Slimefun.api.inventory.BlockMenu bm = null;
+                if (player.getOpenInventory() != null && player.getOpenInventory().getTopInventory() != null) {
+                    org.bukkit.inventory.InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
+                    if (holder instanceof me.mrCookieSlime.Slimefun.api.inventory.BlockMenu blockMenu) {
+                        bm = blockMenu;
+                    }
+                }
+                com.haiman233.worldtaste.guide.RecipeFillMenu.open(player, WTRecipeMachine.this, bm);
                 return false;
             });
         }
@@ -444,6 +475,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
     }
 
     /** 展示副本：克隆输出并附加耗时 lore（仅展示用，不影响实际产出）。 */
+
     /** 配方补全按钮。 */
     private static ItemStack fillButton() {
         org.bukkit.inventory.ItemStack it = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BOOK);
@@ -451,7 +483,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         if (meta != null) {
             meta.setDisplayName(org.bukkit.ChatColor.GREEN + "配方补全");
             java.util.List<String> lore = new java.util.ArrayList<>();
-            lore.add(org.bukkit.ChatColor.GRAY + "选择配方后自动从背包填充材料");
+            lore.add(org.bukkit.ChatColor.GRAY + "选择完整配方后自动从背包填充材料");
             meta.setLore(lore);
             it.setItemMeta(meta);
         }

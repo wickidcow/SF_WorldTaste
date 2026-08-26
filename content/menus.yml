@@ -257,7 +257,6 @@ WT_QIEDPTTJ:
       material_type: mc
       name: '&a'
       material: POISONOUS_POTATO
-      progressbar: true
     0-1:
       amount: 1
       material_type: mc
@@ -332,7 +331,8 @@ WT_QIEDPTTJ:
       amount: 1
       material_type: mc
       name: '&a'
-      material: ORANGE_STAINED_GLASS_PANE
+      material: STONECUTTER
+      progressbar: true
     '26':
       amount: 1
       material_type: mc
@@ -440,7 +440,7 @@ WT_PTTJLJ:
       amount: 1
       material_type: mc
       name: '&a'
-      material: BROWN_STAINED_GLASS_PANE
+      material: POISONOUS_POTATO
       progressbar: true
     0-3:
       amount: 1
@@ -952,7 +952,7 @@ WT_DIANDONGBUSHUJIA:
     '22':
       amount: 1
       material_type: mc
-      material: GRAY_STAINED_GLASS_PANE
+      material: SHEARS
       progressbar: true
     0-3:
       amount: 1
@@ -1052,8 +1052,8 @@ WT_ZYCHUGUO:
     '24':
       name: ' '
       amount: 1
-      material_type: mc
-      material: MAGENTA_STAINED_GLASS_PANE
+      material_type: slimefun
+      material: INFINITY_SINGULARITY
       progressbar: true
     '6':
       name: ' '

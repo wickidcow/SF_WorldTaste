@@ -35,11 +35,12 @@ WORLDTASTE_TNANKS:
   item_group: ws_info
   item:
     name: "&f&l鸣谢"
-    material: OAK_SIGN
+    material: BEACON
     lore:
       - '&7感谢大香蕉和Eventually在脚本编写上给予的大力支持'
       - '&7感谢大香蕉编写的rsc editor大幅降低了编写的繁琐程度'
       - '&7感谢南柯梦在作物的编写上提供指导'
+      - "&7感谢&e&o云梦都服务器&r&7提供jar版本测试"
   placeable: false
   recipe_type: 'NULL'
 
@@ -1109,7 +1110,7 @@ WT_YINGWULUOYOUER:
 # 未鉴定的种子
 WT_ZHONGZITISHI:
   item:
-    lore: [§7尘世百味的作物无法用骨粉催熟, §7请勿通过水桶冲刷地面来收获作物(会把作物卡没), §7支持血炼金术的镰刀和粘液科技梗拓展的农作物自动收割机]
+    lore: [§7支持血炼金术的镰刀和粘液科技梗拓展的农作物自动收割机]
     name: §f§l作物种植提示
     amount: 1
     material_type: mc

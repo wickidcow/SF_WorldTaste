@@ -105,6 +105,7 @@ public final class ItemsLoader {
         }
         item.register(WT.plugin);
 
+
         // 方块破坏掉落
         if (spec.dropFrom != null) {
             Material block = Material.matchMaterial(spec.dropFrom);
