@@ -47,7 +47,7 @@ public final class ItemsLoader {
                 if (register(id, s)) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log(file + " " + id + " 注册失败: " + e);
+                WT.log(file + " " + id + " registration failed: " + e);
                 skip++;
             }
         }
@@ -58,11 +58,11 @@ public final class ItemsLoader {
                 if (register(id, late.get(i))) ok++;
                 else skip++;
             } catch (Exception e) {
-                WT.log(file + " " + id + "(lateInit) 注册失败: " + e);
+                WT.log(file + " " + id + "(lateInit) registration failed: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info(file + ": 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(file + ": registered " + ok + ", skipped " + skip);
     }
 
     /** 通用物品注册（items/machines/foods/mob_drops/geo 复用）。成功返回 true。 */
@@ -84,13 +84,13 @@ public final class ItemsLoader {
         String effId = s.getString("id_alias", id);
         ItemGroup g = WT.group(s.getString("item_group"));
         if (g == null) {
-            WT.log(effId + ": 物品组 " + s.getString("item_group") + " 缺失，跳过");
+            WT.log(effId + ": item group " + s.getString("item_group") + " missing; skipping");
             return false;
         }
         ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));
         if (display == null) display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
         if (display == null) {
-            WT.log(effId + ": 无展示物品，跳过");
+            WT.log(effId + ": display item missing; skipping");
             return false;
         }
         SlimefunItemStack sfis = new SlimefunItemStack(effId, display);

@@ -21,7 +21,7 @@ public final class JegGuideListener implements Listener {
     public static void register() {
         if (JegHook.available()) {
             Bukkit.getPluginManager().registerEvents(new JegGuideListener(), WT.plugin);
-            WT.plugin.getLogger().info("JEG 集成：大配方菜单已启用");
+            WT.plugin.getLogger().info("JEG integration: large recipe menu enabled");
         }
     }
 

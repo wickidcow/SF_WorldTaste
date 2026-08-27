@@ -65,7 +65,7 @@ public final class PlantGuardListener implements Listener {
                 if (!ok) {
                     e.setCancelled(true);
                     Player p = e.getPlayer();
-                    if (p != null) p.sendMessage("该作物只能种植在 " + names(allowed) + " 上！");
+                    if (p != null) p.sendMessage("This crop can only be planted on " + names(allowed) + "!");
                 }
             }
             return;

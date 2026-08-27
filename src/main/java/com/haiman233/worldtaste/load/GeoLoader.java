@@ -39,9 +39,9 @@ public final class GeoLoader {
                 res.register();
                 ok++;
             } catch (Exception e) {
-                WT.log("geo_resources.yml " + id + " 注册失败: " + e);
+                WT.log("geo_resources.yml " + id + " registration failed: " + e);
             }
         }
-        WT.plugin.getLogger().info("geo_resources.yml: 注册 " + ok);
+        WT.plugin.getLogger().info("geo_resources.yml: registered " + ok);
     }
 }

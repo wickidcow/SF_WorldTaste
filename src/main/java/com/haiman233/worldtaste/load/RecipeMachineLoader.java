@@ -32,9 +32,9 @@ public final class RecipeMachineLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { WT.log(id + ": 物品组缺失"); skip++; continue; }
+                if (g == null) { WT.log(id + ": item group missing"); skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { WT.log(id + ": 无展示物品"); skip++; continue; }
+                if (display == null) { WT.log(id + ": display item missing"); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] craftRecipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
@@ -53,11 +53,11 @@ public final class RecipeMachineLoader {
                 m.register(WT.plugin);
                 ok++;
             } catch (Exception e) {
-                WT.log(file + " " + id + " 注册失败: " + e);
+                WT.log(file + " " + id + " registration failed: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info(file + ": 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info(file + ": registered " + ok + ", skipped " + skip);
     }
 
     /** 读取 recipe_machines 的 recipes 段。 */
@@ -110,12 +110,12 @@ public final class RecipeMachineLoader {
                 int[] ch = chances.stream().mapToInt(Integer::intValue).toArray();
                 // CraftingOperation 校验 input/output 非空，空配方会令 tick 抛异常，跳过。
                 if (input.length == 0 || outs.isEmpty()) {
-                    WT.log("配方 " + name + " 输入或输出为空，跳过");
+                    WT.log("Recipe " + name + " has empty input or output; skipping");
                     continue;
                 }
                 out.add(new WTRecipe(seconds, input, outs.toArray(new ItemStack[0]), ch, chooseOne, noConsume, inSlots, outSlots));
             } catch (Exception e) {
-                WT.log("配方 " + name + " 解析失败: " + e);
+                WT.log("Recipe " + name + " parse failed: " + e);
             }
         }
         return out;

@@ -5,10 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * 尘世百味 WorldTaste —— 独立 Slimefun4.1 附属插件主类。
+ * Standalone WorldTaste addon for Slimefun.
  *
- * <p>由原 RSC 脚本版改写而来：内容仍来自同一组 YAML（已打包进 jar），但加载逻辑与原 JS 脚本
- * 行为全部以原生 Java 实现，不再依赖 RykenSlimefunCustomizer 及其 GraalVM 脚本引擎。</p>
+ * <p>The original YAML content remains data-compatible with the upstream project,
+ * while the runtime loader is implemented in native Java and does not require
+ * RykenSlimefunCustomizer or a GraalVM scripting engine.</p>
  */
 public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon {
 
@@ -18,19 +19,20 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
     public void onEnable() {
         instance = this;
         WT.plugin = this;
-        getLogger().info("尘世百味 开始加载（独立版）...");
+        getLogger().info("Loading WorldTaste...");
         try {
             Setup.loadAll();
-            getLogger().info("尘世百味 加载成功");
+            getLogger().info("WorldTaste loaded successfully.");
         } catch (Throwable e) {
-            getLogger().severe("尘世百味 加载过程中出现异常: " + e);
+            getLogger().severe("WorldTaste failed to load: " + e);
             e.printStackTrace();
         }
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("尘世百味 已卸载");
+        getLogger().info("WorldTaste disabled.");
+        instance = null;
     }
 
     public static WorldTastePlugin getInstance() {
@@ -44,6 +46,6 @@ public final class WorldTastePlugin extends JavaPlugin implements SlimefunAddon 
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/haiman233/WorldTaste/issues";
+        return "https://github.com/wickidcow/SF_WorldTaste/issues";
     }
 }

@@ -32,9 +32,9 @@ public final class FoodsLoader {
                 if (!RegisterConditions.pass(s)) { skip++; continue; }
                 String effId = s.getString("id_alias", id);
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { WT.log(effId + ": 物品组缺失"); skip++; continue; }
+                if (g == null) { WT.log(effId + ": item group missing"); skip++; continue; }
                 ItemStack display = WT.preload.get(effId.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { WT.log(effId + ": 无展示物品"); skip++; continue; }
+                if (display == null) { WT.log(effId + ": display item missing"); skip++; continue; }
                 display = display.clone();
                 float eatSeconds = (float) s.getDouble("eatseconds", s.getDouble("eat_seconds", 0));
                 boolean foodOk = FoodHelper.apply(display, s.getInt("nutrition", 0), (float) s.getDouble("saturation", 0),
@@ -56,14 +56,14 @@ public final class FoodsLoader {
                 }
                 ok++;
             } catch (Exception e) {
-                WT.log("foods.yml " + id + " 注册失败: " + e);
+                WT.log("foods.yml " + id + " registration failed: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("foods.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info("foods.yml: registered " + ok + ", skipped " + skip);
         if (foodFail > 0) {
             WT.plugin.getLogger().severe("foods.yml: " + foodFail
-                    + " 个食物的 FoodComponent 应用失败，这些食物将不可食用！");
+                    + " food item(s) failed FoodComponent application and will not be edible!");
         }
     }
 }

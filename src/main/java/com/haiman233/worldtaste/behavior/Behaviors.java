@@ -84,7 +84,7 @@ public final class Behaviors {
             o.message = s.getString("message");
             consumables.put(name, o);
         }
-        WT.plugin.getLogger().info("行为数据: consumables=" + consumables.size());
+        WT.plugin.getLogger().info("Behavior data: consumables=" + consumables.size());
     }
 
     private static void loadCrops() {
@@ -109,7 +109,7 @@ public final class Behaviors {
                         if (id instanceof String && ch instanceof Number) {
                             c.drops.add(new CropDrop((String) id, ((Number) ch).doubleValue(), 0));
                         } else {
-                            WT.log("crop " + name + " 的 drops 项缺少 id/chance，跳过该项");
+                            WT.log("crop " + name + " drops entry is missing id/chance; skipping entry");
                         }
                     }
                 } else if (s.isList("weightedDrops")) {
@@ -121,7 +121,7 @@ public final class Behaviors {
                             c.drops.add(new CropDrop((String) id, 0, wv));
                             c.weightTotal += wv; // R8: load 期预算权重总和（对齐 R4）
                         } else {
-                            WT.log("crop " + name + " 的 weightedDrops 项缺少 id/weight，跳过该项");
+                            WT.log("crop " + name + " weightedDrops entry is missing id/weight; skipping entry");
                         }
                     }
                     c.weighted = true;
@@ -145,11 +145,11 @@ public final class Behaviors {
                 c.seedDropMax = Math.max(1, s.getInt("seedDropMax", 3));
                 crops.put(name, c);
             } catch (Exception e) {
-                WT.log("crop " + name + " 解析失败，跳过: " + e);
+                WT.log("crop " + name + " parse failed; skipping: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("行为数据: crops=" + crops.size() + (skip > 0 ? ", 跳过 " + skip : ""));
+        WT.plugin.getLogger().info("Behavior data: crops=" + crops.size() + (skip > 0 ? ", skipped " + skip : ""));
     }
 
     /** 食物消耗参数（对应原 WT_eatConsumable opts，并扩展覆盖独立脚本的空气/冻结/药水等）。 */

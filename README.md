@@ -1,53 +1,240 @@
-# 尘世百味 WorldTaste
+<div align="center">
 
-<img width="220" height="220" alt="worldtaste" src="https://github.com/user-attachments/assets/89593566-830a-466a-b8f2-6cd2b2459d0b" />
+<img width="220" height="220" alt="WorldTaste" src="https://github.com/user-attachments/assets/89593566-830a-466a-b8f2-6cd2b2459d0b" />
 
-尘世百味为 Slimefun（粘液科技）添加来自世界各地的美食、作物、钓鱼与屠宰等内容。
+# WorldTaste
+### Food, farming, fishing, cooking and machines for Slimefun Legacy
 
-## 尘百jar插件版
-- 原作者为海曼（初代rsc插件），后由hershate改为jar版本
-- 由养坤场管理员提修复了大量bug以及一些优化
-- jar版本相较rsc的脚本驱动拥有更好的性能！
-- 以上操作均为ai操作，本人几乎没有编程基础，不喜勿喷。
-- 但是可以保证的是，已经在本地测试服经过一段时间的测试，目前没有遇到其他bug
-- 如果遇到问题，欢迎加我的qq`1424136122`或者提issue反馈，我会尽力解决
+WorldTaste brings a huge collection of food, crops, fishing content, butchering, cuisine, kitchen equipment and production machines to modern Slimefun servers.
 
-## 下载
+[![Build](https://github.com/wickidcow/SF_WorldTaste/actions/workflows/build.yml/badge.svg)](https://github.com/wickidcow/SF_WorldTaste/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/wickidcow/SF_WorldTaste?label=license)](LICENSE)
+[![Java](https://img.shields.io/badge/Bytecode-Java%2021-orange)](#requirements)
+[![Paper](https://img.shields.io/badge/Paper-1.21.11-blue)](#requirements)
+[![Slimefun](https://img.shields.io/badge/Slimefun-Legacy-brightgreen)](https://github.com/wickidcow/Slimefun-Legacy)
+[![Language](https://img.shields.io/badge/Player%20language-English-brightgreen)](#english-first)
 
-[![构建状态](https://builds.guizhanss.com/api/badge/ykcgly/WorldTaste-Plugin/master/latest)](https://builds.guizhanss.com/ykcgly/WorldTaste-Plugin/master)
+[Download](https://github.com/wickidcow/SF_WorldTaste/releases) ·
+[Builds](https://github.com/wickidcow/SF_WorldTaste/actions) ·
+[Slimefun Legacy](https://github.com/wickidcow/Slimefun-Legacy) ·
+[InfinityExpansion2](https://github.com/wickidcow/SF_InfinityExpansion2) ·
+[Report a Bug](https://github.com/wickidcow/SF_WorldTaste/issues)
 
-## 前置依赖
+Current compatibility line: **WorldTaste 1.9.0**
 
-| 类型 | 插件 |
-|---|---|
-| 必须 | Slimefun（需适配 Minecraft 1.21.11 的版本） |
-| 必须 | [Gastronomicon](https://builds.guizhanss.com/SlimefunGuguProject/Gastronomicon/master)（美食家）、[ExoticGarden](https://builds.guizhanss.com/balugaq/ExoticGardenComplex/master)（异域花园·复合花园 fork） |
-| 可选 | [Cultivation](https://builds.guizhanss.com/SlimefunGuguProject/Cultivation/main)（农耕工艺）、[InfinityExpansion](https://builds.guizhanss.com/SlimefunReloadingProject/InfinityExpansion/master)（无尽贪婪）、LogiTech |
+</div>
 
-> 提示：若 Gastronomicon 的捕鱼网拉低 TPS，可在其配置中禁用捕鱼网（粘液 ID `GN_FISHING_NET_I/II/III`），或改用本附属性能更优的捕鱼器。
+> [!IMPORTANT]
+> **WorldTaste is an unofficial, independently maintained Slimefun addon fork.**
+> This repository modernizes the original WorldTaste project for Slimefun Legacy, current Paper servers, English-language use and InfinityExpansion2 compatibility while preserving the original content identity wherever practical.
+>
+> It is not an official release of Slimefun, Slimefun Legacy, InfinityExpansion, InfinityExpansion2 or Mojang/Microsoft.
 
-## 构建与安装
+---
 
-```bash
-cd plugin
-./gradlew build
-# 产物：plugin/build/libs/WorldTaste-1.8.12-standalone.jar
+## ✨ What is WorldTaste?
+
+WorldTaste is a large content addon focused on food and everyday-life systems that complement the technology-heavy side of Slimefun. It adds ingredients, crops, meals, fishing, meat processing, specialty cuisine, kitchen equipment, production machines and decorative content without requiring a client mod.
+
+| Area | What it adds |
+| --- | --- |
+| **Food & cooking** | Baking, meat, seafood, soups, drinks, desserts, snacks, fermented foods and themed meals |
+| **Crops & farming** | Seeds, crops, harvesting behavior and agricultural ingredients |
+| **Fishing** | Rods, bait, weighted catches and fishing-related processing |
+| **Butchering** | Mob-specific meats, ingredients and processing equipment |
+| **Machines** | Food processors, cookers, workbenches, multiblocks and production systems |
+| **Decoration** | Kitchen, shop and food-themed decorative items from the original content set |
+
+The addon contains a very large data-driven content library. Existing Slimefun IDs and YAML keys are deliberately preserved where possible so modernization does not unnecessarily invalidate old recipes, stored items or existing worlds.
+
+---
+
+## 📦 Download and requirements
+
+| Requirement | Supported setup |
+| --- | --- |
+| **Slimefun core** | Slimefun Legacy — primary build and compatibility target |
+| **Minecraft / Paper API** | 1.21.11 |
+| **Build JDK** | Java 25 |
+| **WorldTaste bytecode** | Java 21 |
+| **InfinityExpansion2** | Optional, supported through compatibility mapping |
+| **InfinityExpansion** | Optional legacy compatibility |
+| **JustEnoughGuide** | Optional integration |
+| **Other integrations** | Gastronomicon, ExoticGarden, Cultivation and LogiTech where referenced by WorldTaste content |
+| **Client mod** | Not required |
+| **Resource pack** | Not required by WorldTaste |
+
+WorldTaste follows the compatibility model used by Slimefun Legacy: CI runs on a modern JDK but deliberately emits **Java 21 bytecode** for the addon.
+
+> [!WARNING]
+> Back up your server before replacing an existing WorldTaste build. Install or update Slimefun addons with a **full server restart**. Do not use `/reload` or plugin hot-reload tools.
+
+### Raw JAR downloads
+
+GitHub Actions artifacts are ZIP archives by design, so this project does **not** use them as the primary downloadable build.
+
+Development and version releases publish the compiled JAR directly through [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases):
+
+```text
+SF_WorldTaste1.9.0.jar
 ```
 
-1. 将构建出的 jar放入服务器的 `plugins/` 目录。
-2. 装齐上表中的前置插件。
-3. 重启服务器（不建议热重载）。
+No ZIP extraction is required.
 
-## 功能概览
+---
 
-- **食物**：烘焙、肉食、中餐、汤与炖菜、饮品（酿酒/果汁）、甜品、零食、发酵食品、功能丸子等十余个分类。
-- **作物**：多种作物及其变种，带生长与收获机制。
-- **钓鱼**：百味钓竿搭配 5 种鱼饵，按权重掉落各类鱼产。
-- **屠宰**：为各类生物添加对应的肉与食材掉落。
-- **其他**：厨房装饰，以及愚人节 / 无尽贪婪主题餐饮。
+## 🚀 Installation
 
-## 致谢
+1. Stop the Minecraft server normally.
+2. Create a backup of the server and Slimefun data.
+3. Install a compatible build of [Slimefun Legacy](https://github.com/wickidcow/Slimefun-Legacy).
+4. Download `SF_WorldTaste1.9.0.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
+5. Place the JAR in the server's `plugins/` directory.
+6. Remove or archive any older WorldTaste JAR so only one copy can load.
+7. Start the server and review the console for WorldTaste, Slimefun or optional-addon compatibility warnings.
+8. Open the Slimefun Guide and test representative WorldTaste foods, crops, machines and recipes before deploying to a production server.
 
-感谢 [balugaq](https://github.com/balugaq) 编写的 [rsc-editor](https://github.com/balugaq/RSCEditor)，以及 balugaq、Eventually、南柯梦在脚本编写上给予的帮助。
+---
 
+## 🔌 Compatibility
 
+### Slimefun Legacy
+
+Slimefun Legacy is the primary compatibility target for this fork. CI checks out the current `wickidcow/Slimefun-Legacy` source, builds it, then compiles WorldTaste against that freshly generated Slimefun JAR.
+
+This catches API or linkage regressions that would be missed by compiling only against the older bundled development dependency.
+
+### InfinityExpansion2
+
+WorldTaste does **not** hard-depend on InfinityExpansion2. IE2 support is optional and is implemented without linking IE2 classes directly into the addon.
+
+When InfinityExpansion2 is installed, legacy InfinityExpansion IDs used by WorldTaste recipes are resolved to their modern IE2 equivalents. The explicit compatibility table is checked against the canonical `LegacyIdMapper` in [SF_InfinityExpansion2](https://github.com/wickidcow/SF_InfinityExpansion2).
+
+Examples include:
+
+| Legacy InfinityExpansion ID | InfinityExpansion2 ID |
+| --- | --- |
+| `INFINITE_INGOT` | `IE_INFINITY_INGOT` |
+| `INFINITE_MACHINE_CORE` | `IE_INFINITY_MACHINE_CORE` |
+| `INFINITE_MACHINE_CIRCUIT` | `IE_INFINITY_MACHINE_CIRCUIT` |
+| `END_ESSENCE` | `IE_ENDER_ESSENCE` |
+| `INFINITY_FORGE` | `IE_INFINITY_WORKBENCH` |
+| `BASIC_STRAINER` | `IE_STRAINER_1` |
+| `INFINITY_STORAGE` | `IE_STORAGE_UNIT_6` |
+
+Dynamic families are handled as well, including mob data cards and quarry oscillators.
+
+The resolver tries the exact Slimefun ID first, then known IE1/IE2 mappings and compatibility fallbacks. This allows WorldTaste to remain usable across legacy and current InfinityExpansion installations without making IE2 a required dependency.
+
+### Paper, Purpur and Folia
+
+WorldTaste is built against the Paper 1.21.11 API and is intended primarily for the same modern Paper environment used by Slimefun Legacy.
+
+Conventional Paper forks such as Purpur should generally behave the same as Paper. Folia compatibility depends on both Slimefun Legacy and every installed addon being safe for region-threaded execution; WorldTaste avoids obvious direct Bukkit scheduler and blocking-thread patterns, but Folia should still be treated as a staging/test target rather than assumed production support.
+
+---
+
+## 🌐 English-first
+
+The original WorldTaste content was primarily Chinese and contains thousands of display strings. This fork provides an English-first presentation layer while preserving the stable content identifiers underneath it.
+
+The modernization currently includes:
+
+- English Slimefun Guide categories and group names
+- English machine and menu controls
+- English recipe and crafting interfaces
+- English gameplay messages
+- English loader, warning and diagnostic messages
+- English fallback display names derived from stable content IDs
+- suppression of unresolved Chinese-only lore instead of exposing mixed-language player text
+
+The underlying Slimefun IDs and YAML keys are intentionally **not renamed simply for translation**. This avoids turning localization into a destructive item or world migration.
+
+CI also scans Java runtime strings and rejects newly introduced CJK player/admin text outside the intentional translation lookup dictionary.
+
+> [!NOTE]
+> WorldTaste's enormous original content library means not every historic flavor-lore line has been manually rewritten word-for-word. The runtime is English-first, stable IDs are preserved, and exact English translations can continue to replace fallbacks without changing item identity.
+
+---
+
+## 🎨 Resource-pack behavior
+
+WorldTaste does **not** ship or require a traditional Minecraft resource pack.
+
+Its item presentation primarily uses:
+
+- vanilla Minecraft materials;
+- normal Slimefun item stacks; and
+- custom player-head textures loaded from texture hashes, Base64 data or URLs.
+
+There is no bundled `pack.mcmeta` / `assets` resource-pack tree and WorldTaste does not require a separate CustomModelData pack for normal use.
+
+This makes it suitable for servers that already maintain their own combined or forced resource pack.
+
+---
+
+## 🧪 Continuous verification
+
+Every maintained build is checked for the compatibility points that matter most to this fork:
+
+- English runtime-string validation
+- current InfinityExpansion2 mapping synchronization
+- current Slimefun Legacy source build
+- WorldTaste compilation against that freshly built Slimefun Legacy JAR
+- Java 21 class-file compatibility
+- plugin metadata and IE2 soft-dependency validation
+- direct raw-JAR discovery before release publishing
+
+The rolling development release is updated from verified compatibility-branch builds. Version releases publish the same JAR format from the release line.
+
+---
+
+## ⚙️ Building from source
+
+Clone the repository and run:
+
+```bash
+./gradlew clean build
+```
+
+The normal local build uses the bundled Slimefun compile dependency. To test against another Slimefun Legacy JAR:
+
+```bash
+./gradlew clean build -PslimefunJar=/path/to/Slimefun-Legacy.jar
+```
+
+Output:
+
+```text
+build/libs/SF_WorldTaste1.9.0.jar
+```
+
+CI builds Slimefun Legacy from current source first and passes that generated JAR to WorldTaste through `-PslimefunJar`.
+
+---
+
+## ❤️ Credits and project history
+
+WorldTaste originates from the original content project created by **haiman233** and the community around its scripted/RSC implementation.
+
+The standalone plugin version and later maintenance work built on that original project. Credit also belongs to **balugaq** for `RSCEditor`, **Eventually**, and the other original contributors who helped build the surrounding content ecosystem.
+
+This fork is maintained by **wickidcow** as the modern Slimefun Legacy compatibility line. The goal is to preserve the original project's identity and content while making it practical to run on current English-language Slimefun servers.
+
+---
+
+## 🐛 Issues and testing
+
+Please report reproducible problems through [GitHub Issues](https://github.com/wickidcow/SF_WorldTaste/issues).
+
+For compatibility reports, include:
+
+- Minecraft / Paper version
+- Java version
+- Slimefun Legacy version or commit
+- WorldTaste version
+- InfinityExpansion / InfinityExpansion2 version if installed
+- full exception or relevant console output
+- steps needed to reproduce the problem
+
+Testing on a staging server before production deployment is strongly recommended for major Slimefun or addon upgrades.

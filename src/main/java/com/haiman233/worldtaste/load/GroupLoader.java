@@ -30,7 +30,7 @@ public final class GroupLoader {
                 String type = s.getString("type", "normal").toLowerCase(Locale.ROOT);
                 if (type.equals("nested") || type.equals("parent")) registerNested(key, s);
             } catch (Exception e) {
-                WT.log("groups " + key + " 注册失败，跳过: " + e);
+                WT.log("groups " + key + " registration failed; skipping: " + e);
             }
         }
         int ok = WT.groups.size();
@@ -42,16 +42,16 @@ public final class GroupLoader {
                 if (type.equals("nested") || type.equals("parent")) continue;
                 registerChild(key, s, type);
             } catch (Exception e) {
-                WT.log("groups " + key + " 注册失败，跳过: " + e);
+                WT.log("groups " + key + " registration failed; skipping: " + e);
             }
         }
-        WT.plugin.getLogger().info("groups.yml: 注册 " + (WT.groups.size() - ok) + " 子组，共 " + WT.groups.size());
+        WT.plugin.getLogger().info("groups.yml: registered " + (WT.groups.size() - ok) + " subgroups, total " + WT.groups.size());
     }
 
     private static void registerNested(String key, ConfigurationSection s) {
         ItemStack display = Read.item(s.getConfigurationSection("item"), false);
         if (display == null) {
-            WT.log("groups " + key + ": 无展示物品");
+            WT.log("groups " + key + ": display item missing");
             return;
         }
         int tier = s.getInt("tier", 3);
@@ -63,7 +63,7 @@ public final class GroupLoader {
     private static void registerChild(String key, ConfigurationSection s, String type) {
         ItemStack display = Read.item(s.getConfigurationSection("item"), false);
         if (display == null) {
-            WT.log("groups " + key + ": 无展示物品");
+            WT.log("groups " + key + ": display item missing");
             return;
         }
         int tier = s.getInt("tier", 3);

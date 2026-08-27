@@ -45,11 +45,11 @@ public final class MobDropsLoader {
                 }
                 ok++;
             } catch (Exception e) {
-                WT.log("mob_drops.yml " + id + " 注册失败: " + e);
+                WT.log("mob_drops.yml " + id + " registration failed: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("mob_drops.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info("mob_drops.yml: registered " + ok + ", skipped " + skip);
     }
 
     public static final class Drop {

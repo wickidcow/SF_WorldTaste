@@ -40,14 +40,14 @@ public final class Yaml {
     private static YamlConfiguration doLoad(WorldTastePlugin plugin, String name) {
         try (InputStream in = plugin.getResource(name)) {
             if (in == null) {
-                WT.log("资源缺失: " + name);
+                WT.log("Missing resource: " + name);
                 return new YamlConfiguration();
             }
             try (InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
                 return YamlConfiguration.loadConfiguration(reader);
             }
         } catch (IOException e) {
-            WT.log("读取 " + name + " 失败: " + e);
+            WT.log("Reading " + name + " failed: " + e);
             return new YamlConfiguration();
         }
     }

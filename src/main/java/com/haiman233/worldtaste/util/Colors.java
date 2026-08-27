@@ -6,10 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 
-/**
- * 颜色工具：兼容 WorldTaste 中三种十六进制写法 {@code &#RRGGBB}、{@code {#RRGGBB}}，
- * 以及标准 {@code &a/&l/...} 颜色/格式码。
- */
+/** Color utility supporting WorldTaste hex and legacy formatting codes. */
 public final class Colors {
 
     private Colors() {}
@@ -19,7 +16,8 @@ public final class Colors {
 
     public static String c(String s) {
         if (s == null) return null;
-        String t = replaceHex(HEX_BRACE, s);
+        String translated = EnglishText.translate(s);
+        String t = replaceHex(HEX_BRACE, translated);
         t = replaceHex(HEX_AMP, t);
         return ChatColor.translateAlternateColorCodes('&', t);
     }

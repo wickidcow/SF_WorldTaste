@@ -42,10 +42,10 @@ public final class MenuLoader {
                 WT.menus.put(id, menu);
                 ok++;
             } catch (Exception e) {
-                WT.log("menus.yml " + id + " 失败: " + e);
+                WT.log("menus.yml " + id + " failed: " + e);
             }
         }
-        WT.plugin.getLogger().info("menus.yml: 注册 " + ok);
+        WT.plugin.getLogger().info("menus.yml: registered " + ok);
     }
 
     /** 解析槽位键：单值 "6" 或区间 "10-17"。非法/反转区间返回空数组（仅跳过该槽，不连累整个菜单）。 */

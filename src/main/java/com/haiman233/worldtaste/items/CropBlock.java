@@ -250,7 +250,7 @@ public class CropBlock extends SlimefunItem {
         else {
             Material m = Material.matchMaterial(id);
             if (m == null) {
-                com.haiman233.worldtaste.WT.log("作物 " + getId() + " 的掉落物无法解析: " + id);
+                com.haiman233.worldtaste.WT.log("Crop " + getId() + " drop could not be resolved: " + id);
                 return;
             }
             stack = new ItemStack(m);
