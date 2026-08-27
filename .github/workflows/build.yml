@@ -132,19 +132,19 @@ jobs:
             gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
             gh release edit "$TAG" \
               --title "WorldTaste Development Build" \
-              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. This is a raw JAR download; no ZIP extraction is required." \
+              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. The attached file is the raw WorldTaste JAR; no ZIP extraction is required." \
               --prerelease
           else
             gh release create "$TAG" "$WORLDTASTE_JAR" \
               --target "$GITHUB_SHA" \
               --title "WorldTaste Development Build" \
-              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. This is a raw JAR download; no ZIP extraction is required." \
+              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. The attached file is the raw WorldTaste JAR; no ZIP extraction is required." \
               --prerelease
           fi
           echo "Published rolling raw development JAR: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"
 
       # A release-trigger commit on main (message starts with "release:") creates
-      # the version tag and GitHub Release from the exact verified main commit.
+      # the version tag and a human-written GitHub Release from the verified main commit.
       - name: Publish requested version release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release:')
         shell: bash
@@ -155,15 +155,48 @@ jobs:
           VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' build.gradle.kts | head -n1)"
           test -n "$VERSION"
           TAG="v$VERSION"
+          JAR_NAME="$(basename "$WORLDTASTE_JAR")"
+
+          cat > /tmp/release-notes.md <<EOF
+          ## WorldTaste $VERSION — Slimefun Legacy Edition
+
+          WorldTaste has been modernized for the current Slimefun Legacy ecosystem while keeping the original content IDs and data structure intact wherever practical.
+
+          ### Highlights
+          - English-first player-facing guide, menus, machine interfaces, messages and diagnostics
+          - Compatibility with current **Slimefun Legacy** builds
+          - Optional **InfinityExpansion2** compatibility using the current canonical IE2 legacy-ID mappings
+          - Paper **1.21.11** API target
+          - Built with Java 25 while emitting **Java 21-compatible bytecode**
+          - Large food, crop, fishing, butchering, machine, workbench and decoration content library
+          - No standalone WorldTaste resource pack required; visuals use vanilla materials and player-head textures
+          - Existing Slimefun IDs and YAML keys preserved to reduce migration risk for established worlds
+
+          ### Download
+          The attached **$JAR_NAME** is the **raw plugin JAR**. No ZIP extraction is required.
+
+          Install it directly into your server's \`plugins/\` directory and perform a full restart. Do not use \`/reload\` for Slimefun addon updates.
+
+          ### Compatibility notes
+          Slimefun is required. InfinityExpansion, InfinityExpansion2, JustEnoughGuide, Gastronomicon, ExoticGarden, Cultivation and LogiTech remain optional integrations where referenced by WorldTaste content.
+
+          This is an unofficial, independently maintained compatibility fork of the original WorldTaste project.
+          EOF
+
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
+            gh release edit "$TAG" \
+              --title "WorldTaste $VERSION — Slimefun Legacy Edition" \
+              --notes-file /tmp/release-notes.md \
+              --latest
           else
             gh release create "$TAG" "$WORLDTASTE_JAR" \
               --target "$GITHUB_SHA" \
-              --title "WorldTaste $VERSION" \
-              --generate-notes
+              --title "WorldTaste $VERSION — Slimefun Legacy Edition" \
+              --notes-file /tmp/release-notes.md \
+              --latest
           fi
-          echo "Published raw release asset: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"
+          echo "Published raw release asset: $JAR_NAME" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish raw JAR for version tag
         if: startsWith(github.ref, 'refs/tags/v')
@@ -177,8 +210,8 @@ jobs:
             gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
           else
             gh release create "$TAG" "$WORLDTASTE_JAR" \
-              --title "WorldTaste ${TAG#v}" \
-              --generate-notes \
+              --title "WorldTaste ${TAG#v} — Slimefun Legacy Edition" \
+              --notes "Verified Slimefun Legacy build. The attached WorldTaste file is the raw plugin JAR; no ZIP extraction is required." \
               --verify-tag
           fi
           echo "Published raw release asset: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"
