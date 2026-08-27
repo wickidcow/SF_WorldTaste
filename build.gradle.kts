@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.haiman233"
-version = "1.0.10"
+version = "1.0.11"
 
 repositories {
     mavenCentral()
