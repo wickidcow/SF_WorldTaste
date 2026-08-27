@@ -20,7 +20,7 @@ WorldTaste brings a huge collection of food, crops, fishing content, butchering,
 [InfinityExpansion2](https://github.com/wickidcow/SF_InfinityExpansion2) ·
 [Report a Bug](https://github.com/wickidcow/SF_WorldTaste/issues)
 
-Current compatibility line: **WorldTaste 1.0.10**
+Current compatibility line: **WorldTaste 1.0.11**
 
 </div>
 
@@ -76,7 +76,7 @@ GitHub Actions artifacts are ZIP archives by design, so this project does **not*
 Development and version releases publish the compiled JAR directly through [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases):
 
 ```text
-SF_WorldTaste1.0.10.jar
+SF_WorldTaste1.0.11.jar
 ```
 
 No ZIP extraction is required.
@@ -88,7 +88,7 @@ No ZIP extraction is required.
 1. Stop the Minecraft server normally.
 2. Create a backup of the server and Slimefun data.
 3. Install a compatible build of [Slimefun Legacy](https://github.com/wickidcow/Slimefun-Legacy).
-4. Download `SF_WorldTaste1.0.10.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
+4. Download `SF_WorldTaste1.0.11.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
 5. Place the JAR in the server's `plugins/` directory.
 6. Remove or archive any older WorldTaste JAR so only one copy can load.
 7. Start the server and review the console for WorldTaste, Slimefun or optional-addon compatibility warnings.
@@ -145,7 +145,9 @@ The modernization currently includes:
 - English recipe and crafting interfaces
 - English gameplay messages
 - English loader, warning and diagnostic messages
-- semantic English fallbacks based on item category/material instead of exposing pinyin-like internal IDs
+- semantic English item names translated from the original display text where known
+- curated English aliases for common historical WorldTaste IDs such as seafood, ingredients, drinks and meals
+- no generic `Category Item` fallback for unresolved names
 - suppression of unresolved Chinese-only lore instead of exposing mixed-language player text
 
 The underlying Slimefun IDs and YAML keys are intentionally **not renamed simply for translation**. This avoids turning localization into a destructive item or world migration.
@@ -153,7 +155,7 @@ The underlying Slimefun IDs and YAML keys are intentionally **not renamed simply
 CI also scans Java runtime strings and rejects newly introduced CJK player/admin text outside the intentional translation lookup dictionary.
 
 > [!NOTE]
-> WorldTaste's enormous original content library means not every historic flavor-lore line has been manually rewritten word-for-word. The runtime is English-first, stable IDs are preserved, and exact English translations can continue to replace fallbacks without changing item identity.
+> WorldTaste's enormous original content library means not every historic flavor-lore line has been manually rewritten word-for-word. Display names now prefer semantic English translations, while stable IDs remain unchanged for compatibility. Any still-untranslated edge cases can be translated without changing item identity.
 
 ---
 
@@ -204,7 +206,7 @@ To test against another Slimefun Legacy JAR:
 Output:
 
 ```text
-build/libs/SF_WorldTaste1.0.10.jar
+build/libs/SF_WorldTaste1.0.11.jar
 ```
 
 ---
