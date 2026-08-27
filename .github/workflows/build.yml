@@ -160,15 +160,11 @@ jobs:
           cat > /tmp/release-notes.md <<EOF
           ## WorldTaste $VERSION — Slimefun Legacy Edition
 
-          WorldTaste has been modernized for the current Slimefun Legacy ecosystem while keeping the original content IDs and data structure intact wherever practical.
+          WorldTaste continues the original food-focused addon on the modern Slimefun Legacy ecosystem, with compatibility and stability taking priority while preserving existing content IDs wherever practical.
 
           ### Highlights
-          - English-first player-facing guide, menus, machine interfaces, messages and diagnostics
-          - Semantic English display names now come from the original WorldTaste names instead of generic category placeholders
-          - Common historical IDs such as seafood, ingredients, drinks and meals have curated English aliases
-          - Unknown names no longer collapse into labels like **Meat & Seafood Item** or **Fast Food Item**
-          - Lightweight vanilla category icons reduce the burst of custom-head textures when opening the WorldTaste guide
           - Compatibility with current **Slimefun Legacy** builds
+          - Lightweight vanilla category icons reduce the burst of custom-head textures when opening the WorldTaste guide
           - Optional **InfinityExpansion2** compatibility using the current canonical IE2 legacy-ID mappings
           - Paper **1.21.11** API target
           - Built with Java 25 while emitting **Java 21-compatible bytecode**
@@ -181,6 +177,9 @@ jobs:
 
           ### Compatibility notes
           Slimefun is required. InfinityExpansion, InfinityExpansion2, JustEnoughGuide, Gastronomicon, ExoticGarden, Cultivation and LogiTech remain optional integrations where referenced by WorldTaste content.
+
+          ### A little extra ✨
+          As a bit of player-facing polish, WorldTaste now prefers proper semantic English item names from the original content and curated aliases. Unknown items no longer collapse into generic labels such as **Meat & Seafood Item** or **Fast Food Item**.
 
           This is an unofficial, independently maintained compatibility fork of the original WorldTaste project.
           EOF
