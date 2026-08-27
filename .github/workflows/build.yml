@@ -164,13 +164,15 @@ jobs:
 
           ### Highlights
           - English-first player-facing guide, menus, machine interfaces, messages and diagnostics
+          - Semantic English display names now come from the original WorldTaste names instead of generic category placeholders
+          - Common historical IDs such as seafood, ingredients, drinks and meals have curated English aliases
+          - Unknown names no longer collapse into labels like **Meat & Seafood Item** or **Fast Food Item**
+          - Lightweight vanilla category icons reduce the burst of custom-head textures when opening the WorldTaste guide
           - Compatibility with current **Slimefun Legacy** builds
           - Optional **InfinityExpansion2** compatibility using the current canonical IE2 legacy-ID mappings
           - Paper **1.21.11** API target
           - Built with Java 25 while emitting **Java 21-compatible bytecode**
-          - Large food, crop, fishing, butchering, machine, workbench and decoration content library
-          - No standalone WorldTaste resource pack required; visuals use vanilla materials and player-head textures
-          - Existing Slimefun IDs and YAML keys preserved to reduce migration risk for established worlds
+          - Existing Slimefun IDs and YAML keys remain unchanged for world/item compatibility
 
           ### Download
           The attached **$JAR_NAME** is the **raw plugin JAR**. No ZIP extraction is required.
