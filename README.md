@@ -20,7 +20,7 @@ WorldTaste brings a huge collection of food, crops, fishing content, butchering,
 [InfinityExpansion2](https://github.com/wickidcow/SF_InfinityExpansion2) ·
 [Report a Bug](https://github.com/wickidcow/SF_WorldTaste/issues)
 
-Current compatibility line: **WorldTaste 1.0.9**
+Current compatibility line: **WorldTaste 1.0.10**
 
 </div>
 
@@ -76,7 +76,7 @@ GitHub Actions artifacts are ZIP archives by design, so this project does **not*
 Development and version releases publish the compiled JAR directly through [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases):
 
 ```text
-SF_WorldTaste1.0.9.jar
+SF_WorldTaste1.0.10.jar
 ```
 
 No ZIP extraction is required.
@@ -88,7 +88,7 @@ No ZIP extraction is required.
 1. Stop the Minecraft server normally.
 2. Create a backup of the server and Slimefun data.
 3. Install a compatible build of [Slimefun Legacy](https://github.com/wickidcow/Slimefun-Legacy).
-4. Download `SF_WorldTaste1.0.9.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
+4. Download `SF_WorldTaste1.0.10.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
 5. Place the JAR in the server's `plugins/` directory.
 6. Remove or archive any older WorldTaste JAR so only one copy can load.
 7. Start the server and review the console for WorldTaste, Slimefun or optional-addon compatibility warnings.
@@ -145,7 +145,7 @@ The modernization currently includes:
 - English recipe and crafting interfaces
 - English gameplay messages
 - English loader, warning and diagnostic messages
-- English fallback display names derived from stable content IDs
+- semantic English fallbacks based on item category/material instead of exposing pinyin-like internal IDs
 - suppression of unresolved Chinese-only lore instead of exposing mixed-language player text
 
 The underlying Slimefun IDs and YAML keys are intentionally **not renamed simply for translation**. This avoids turning localization into a destructive item or world migration.
@@ -167,9 +167,9 @@ Its item presentation primarily uses:
 - normal Slimefun item stacks; and
 - custom player-head textures loaded from texture hashes, Base64 data or URLs.
 
-There is no bundled `pack.mcmeta` / `assets` resource-pack tree and WorldTaste does not require a separate CustomModelData pack for normal use.
+For guide stability, WorldTaste category icons that were custom player heads are rendered with lightweight vanilla icons. This reduces the client-side texture burst when opening the WorldTaste guide while leaving the actual craftable WorldTaste items and their textures unchanged.
 
-This makes it suitable for servers that already maintain their own combined or forced resource pack.
+There is no bundled `pack.mcmeta` / `assets` resource-pack tree and WorldTaste does not require a separate CustomModelData pack for normal use.
 
 ---
 
@@ -185,8 +185,6 @@ Every maintained build is checked for the compatibility points that matter most 
 - plugin metadata and IE2 soft-dependency validation
 - direct raw-JAR discovery before release publishing
 
-The rolling development release is updated from verified compatibility-branch builds. Version releases publish the same JAR format from the release line.
-
 ---
 
 ## ⚙️ Building from source
@@ -197,7 +195,7 @@ Clone the repository and run:
 ./gradlew clean build
 ```
 
-The normal local build uses the bundled Slimefun compile dependency. To test against another Slimefun Legacy JAR:
+To test against another Slimefun Legacy JAR:
 
 ```bash
 ./gradlew clean build -PslimefunJar=/path/to/Slimefun-Legacy.jar
@@ -206,10 +204,8 @@ The normal local build uses the bundled Slimefun compile dependency. To test aga
 Output:
 
 ```text
-build/libs/SF_WorldTaste1.0.9.jar
+build/libs/SF_WorldTaste1.0.10.jar
 ```
-
-CI builds Slimefun Legacy from current source first and passes that generated JAR to WorldTaste through `-PslimefunJar`.
 
 ---
 
@@ -227,14 +223,4 @@ This fork is maintained by **wickidcow** as the modern Slimefun Legacy compatibi
 
 Please report reproducible problems through [GitHub Issues](https://github.com/wickidcow/SF_WorldTaste/issues).
 
-For compatibility reports, include:
-
-- Minecraft / Paper version
-- Java version
-- Slimefun Legacy version or commit
-- WorldTaste version
-- InfinityExpansion / InfinityExpansion2 version if installed
-- full exception or relevant console output
-- steps needed to reproduce the problem
-
-Testing on a staging server before production deployment is strongly recommended for major Slimefun or addon upgrades.
+For compatibility reports, include Minecraft/Paper version, Java version, Slimefun Legacy version, WorldTaste version, optional addon versions, relevant console output, and reproduction steps.
