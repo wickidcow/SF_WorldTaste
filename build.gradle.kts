@@ -1,40 +1,40 @@
-// WorldTaste 独立 Slimefun4.1 附属插件构建脚本
-// 仅依赖本地 REF/Slimefun4.1 构建产物 + Paper API，不联网下载 Slimefun。
-import java.util.Properties
+import org.gradle.api.tasks.compile.JavaCompile
 
 plugins {
     java
 }
 
 group = "com.haiman233"
-version = "1.8.13-standalone"
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-tasks.compileJava {
-    options.encoding = "UTF-8"
-    options.release.set(21)
-}
+version = "1.9.0"
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
+val slimefunJar = providers.gradleProperty("slimefunJar")
+    .orElse("libs/Slimefun-2025.11-release.jar")
+
 dependencies {
-    // Paper 1.21.11 API（非 Slimefun，可从 papermc 仓库获取）
-        compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-    // 本地修改版 Slimefun4.1（只读，禁止修改），与 RSC 同一编译路径；
-    // REF 缺失时回退到 libs/ 下的服务器同款 jar（两者包结构一致，新旧包名均含）
-    val refSlimefun = rootProject.projectDir.resolve("../REF/RykenSlimeCustomizer-1.21.11/REF/Slimefun4.1/target/SlimeFun4.1-4.9.5.jar")
-    compileOnly(files(if (refSlimefun.exists()) refSlimefun else file("libs/Slimefun-2025.11-release.jar")))
-    // JEG（JustEnoughGuide）软依赖：大配方菜单点击拦截（反射注册，JEG 未装时零影响）
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly(files(slimefunJar.map { file(it) }))
     compileOnly(files("libs/JustEnoughGuide.jar"))
 }
 
-// 把 plugin/content/ 下的 WorldTaste 内容 YAML 一并打入 jar（插件运行期从自身资源读取）
+// Match Slimefun Legacy: compile with the modern JDK/Paper API while emitting
+// Java 21 bytecode so the addon itself remains Java 21+ compatible.
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+    options.release.set(21)
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+}
+
 val contentYaml = listOf(
     "groups.yml", "recipe_types.yml", "items.yml", "foods.yml", "machines.yml",
     "recipe_machines.yml", "mb_machines.yml", "linked_recipe_machines.yml",
@@ -43,18 +43,15 @@ val contentYaml = listOf(
 
 tasks.processResources {
     filteringCharset = "UTF-8"
+    filesMatching("plugin.yml") {
+        expand("version" to project.version)
+    }
     from(rootProject.projectDir.resolve("content")) {
         include(contentYaml)
-        into("") // 置于 jar 根目录
+        into("")
     }
 }
 
 tasks.jar {
-    archiveBaseName.set("WorldTaste")
-    archiveVersion.set(project.version.toString())
-    archiveClassifier.set("")
-}
-
-tasks.build {
-    dependsOn(tasks.jar)
+    archiveFileName.set("SF_WorldTaste${project.version}.jar")
 }

@@ -1,0 +1,184 @@
+name: Build WorldTaste
+
+on:
+  push:
+    branches: [main, english-ie2-legacy-compat]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out WorldTaste
+        uses: actions/checkout@v6
+
+      - name: Verify English runtime strings
+        run: python3 scripts/check_english_runtime_strings.py
+
+      - name: Check out current InfinityExpansion2
+        uses: actions/checkout@v6
+        with:
+          repository: wickidcow/SF_InfinityExpansion2
+          ref: master
+          path: .deps/InfinityExpansion2
+
+      - name: Verify IE2 mapping compatibility
+        run: python3 scripts/check_ie2_mapping_sync.py --ie2-root .deps/InfinityExpansion2
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: gradle
+
+      - name: Check out Slimefun Legacy
+        uses: actions/checkout@v6
+        with:
+          repository: wickidcow/Slimefun-Legacy
+          ref: master
+          path: .deps/Slimefun-Legacy
+
+      - name: Build current Slimefun Legacy
+        working-directory: .deps/Slimefun-Legacy
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          ./gradlew spotlessApply --no-daemon
+          ./gradlew clean build --no-daemon
+
+      - name: Locate Slimefun Legacy JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAR="$(find .deps/Slimefun-Legacy/build/libs -maxdepth 1 -type f -name 'Slimefun-*.jar' ! -name '*-sources.jar' ! -name '*-javadoc.jar' -print -quit)"
+          test -n "$JAR"
+          echo "SLIMEFUN_JAR=$GITHUB_WORKSPACE/$JAR" >> "$GITHUB_ENV"
+          echo "Building WorldTaste against: $JAR" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build WorldTaste
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+          ./gradlew clean build -PslimefunJar="$SLIMEFUN_JAR" --no-daemon
+
+      - name: Locate WorldTaste JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAR="$(find build/libs -maxdepth 1 -type f -name 'SF_WorldTaste*.jar' -print -quit)"
+          test -n "$JAR"
+          echo "WORLDTASTE_JAR=$GITHUB_WORKSPACE/$JAR" >> "$GITHUB_ENV"
+          echo "Built raw JAR: $(basename "$JAR")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify Java 21 bytecode
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$WORLDTASTE_JAR" <<'PY'
+          import struct
+          import sys
+          import zipfile
+
+          jar = sys.argv[1]
+          majors = set()
+          with zipfile.ZipFile(jar) as archive:
+              classes = [name for name in archive.namelist() if name.endswith('.class')]
+              if not classes:
+                  raise SystemExit('No class files found in WorldTaste JAR')
+              for name in classes:
+                  header = archive.read(name)[:8]
+                  if len(header) < 8 or header[:4] != b'\xca\xfe\xba\xbe':
+                      raise SystemExit(f'Invalid class header: {name}')
+                  majors.add(struct.unpack('>H', header[6:8])[0])
+          if max(majors) > 65:
+              raise SystemExit(f'Found bytecode newer than Java 21: class majors={sorted(majors)}')
+          print(f'Java 21 bytecode verified: class majors={sorted(majors)}')
+          PY
+
+      - name: Verify plugin metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -p "$WORLDTASTE_JAR" plugin.yml > /tmp/plugin.yml
+          grep -Fq 'depend: [Slimefun]' /tmp/plugin.yml
+          grep -Fq 'InfinityExpansion2' /tmp/plugin.yml
+          ! grep -Pq '[\x{3400}-\x{4DBF}\x{4E00}-\x{9FFF}\x{F900}-\x{FAFF}]' /tmp/plugin.yml
+
+      # Actions artifacts are ZIP archives. For raw-JAR access during development,
+      # keep a rolling prerelease whose asset is the JAR itself.
+      - name: Publish rolling development JAR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/english-ie2-legacy-compat'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="development-build"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh api "repos/${GITHUB_REPOSITORY}/git/refs/tags/${TAG}" \
+              --method PATCH \
+              -f sha="$GITHUB_SHA" \
+              -F force=true >/dev/null
+            gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
+            gh release edit "$TAG" \
+              --title "WorldTaste Development Build" \
+              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. This is a raw JAR download; no ZIP extraction is required." \
+              --prerelease
+          else
+            gh release create "$TAG" "$WORLDTASTE_JAR" \
+              --target "$GITHUB_SHA" \
+              --title "WorldTaste Development Build" \
+              --notes "Latest verified development build from the Slimefun Legacy compatibility branch. This is a raw JAR download; no ZIP extraction is required." \
+              --prerelease
+          fi
+          echo "Published rolling raw development JAR: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"
+
+      # A release-trigger commit on main (message starts with "release:") creates
+      # the version tag and GitHub Release from the exact verified main commit.
+      - name: Publish requested version release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release:')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' build.gradle.kts | head -n1)"
+          test -n "$VERSION"
+          TAG="v$VERSION"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
+          else
+            gh release create "$TAG" "$WORLDTASTE_JAR" \
+              --target "$GITHUB_SHA" \
+              --title "WorldTaste $VERSION" \
+              --generate-notes
+          fi
+          echo "Published raw release asset: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish raw JAR for version tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="$GITHUB_REF_NAME"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$WORLDTASTE_JAR" --clobber
+          else
+            gh release create "$TAG" "$WORLDTASTE_JAR" \
+              --title "WorldTaste ${TAG#v}" \
+              --generate-notes \
+              --verify-tag
+          fi
+          echo "Published raw release asset: $(basename "$WORLDTASTE_JAR")" >> "$GITHUB_STEP_SUMMARY"

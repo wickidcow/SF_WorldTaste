@@ -31,9 +31,9 @@ public final class TemplateLoader {
             if (s == null) continue;
             try {
                 ItemGroup g = WT.group(s.getString("item_group"));
-                if (g == null) { WT.log(id + ": 物品组缺失"); skip++; continue; }
+                if (g == null) { WT.log(id + ": item group missing"); skip++; continue; }
                 ItemStack display = WT.preload.get(id.toUpperCase(java.util.Locale.ROOT));
-                if (display == null) { WT.log(id + ": 无展示物品"); skip++; continue; }
+                if (display == null) { WT.log(id + ": display item missing"); skip++; continue; }
                 SlimefunItemStack sfis = new SlimefunItemStack(id, display);
                 RecipeType rt = RecipeTypes.resolve(s.getString("recipe_type", "NULL"));
                 ItemStack[] craftRecipe = Read.recipe(s.getConfigurationSection("recipe"), 9);
@@ -65,10 +65,10 @@ public final class TemplateLoader {
                 m.register(WT.plugin);
                 ok++;
             } catch (Exception e) {
-                WT.log("template_machines.yml " + id + " 注册失败: " + e);
+                WT.log("template_machines.yml " + id + " registration failed: " + e);
                 skip++;
             }
         }
-        WT.plugin.getLogger().info("template_machines.yml: 注册 " + ok + ", 跳过 " + skip);
+        WT.plugin.getLogger().info("template_machines.yml: registered " + ok + ", skipped " + skip);
     }
 }

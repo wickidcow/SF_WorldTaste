@@ -3,6 +3,7 @@ package com.haiman233.worldtaste.items;
 import com.haiman233.worldtaste.WT;
 import com.haiman233.worldtaste.behavior.Behaviors.ConsumableOpts;
 import com.haiman233.worldtaste.behavior.Behaviors.Potion;
+import com.haiman233.worldtaste.util.EnglishText;
 import com.haiman233.worldtaste.util.Stacks;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -19,10 +20,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-/**
- * 消耗型食物（右键食用）。覆盖原 WT_eatConsumable 与独立食物脚本(yl/tang/jiu/yan/zhongdu 等)：
- * 主手消耗、副手校验(默认禁粘液物品；offhandTool 指定必备工具如 yan 打火石/xuejia 剪刀)、按 opts 恢复饥饿/饱和/消耗/空气/冻结并施加药水。
- */
+/** Consumable WorldTaste item with configurable hunger, saturation and potion effects. */
 public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     private final ConsumableOpts opts;
@@ -36,7 +34,6 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
-            // 潜行右键不食用：让出放置行为（食物可放置且挖掘保留粘液数据，见 PlantGuardListener）
             if (p.isSneaking()) return;
             if (opts.requireHungry && p.getFoodLevel() >= 20) return;
             PlayerInventory inv = p.getInventory();
@@ -44,21 +41,20 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
 
             if (opts.offhandTool != null) {
                 if (off == null || off.getType() != opts.offhandTool) {
-                    p.sendMessage("您必须使用主手且副手持有 " + opts.offhandTool.name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ') + "！");
+                    p.sendMessage("You must use this from your main hand while holding "
+                            + opts.offhandTool.name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ')
+                            + " in your off hand!");
                     return;
                 }
             } else if (off != null && SlimefunItem.getByItem(off) != null) {
-                p.sendMessage("您必须使用主手进食且副手不能持有粘液科技物品！");
+                p.sendMessage("You must eat this from your main hand while keeping Slimefun items out of your off hand!");
                 return;
             }
 
             ItemStack main = inv.getItemInMainHand();
             if (main == null || main.getAmount() <= 0) return;
-            // 到 0 必须清空主手槽位，避免 0 数量幽灵物品残留（否则下次右键仍被识别/显示）
             Stacks.consumeOneInMainHand(inv);
             if (opts.offhandTool != null && opts.consumeOffhand) {
-                // 副手工具为整件消耗（对齐原 yan.js 打火石 / xuejia.js 剪刀的 setAmount-1）：
-                // 到 0 必须清空副手，否则 0 数量工具仍能通过 getType() 校验导致无限使用。
                 Stacks.consumeOneInOffHand(inv);
             }
 
@@ -86,10 +82,13 @@ public class ConsumableItem extends SimpleSlimefunItem<ItemUseHandler> implement
             for (Potion pt : opts.potions) {
                 PotionEffectType type = PotionEffectType.getByName(pt.type);
                 if (type != null) p.addPotionEffect(new PotionEffect(type, pt.duration, pt.amplifier, false));
-                else WT.log("未知药水类型: " + pt.type);
+                else WT.log("Unknown potion effect type: " + pt.type);
             }
 
-            if (opts.message != null) p.sendMessage(opts.message);
+            if (opts.message != null) {
+                String message = EnglishText.translate(opts.message);
+                if (!EnglishText.containsChinese(message)) p.sendMessage(message);
+            }
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_STRIDER_EAT, 1f, 1f);
         };
     }

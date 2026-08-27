@@ -38,7 +38,7 @@ public final class Setup {
         Yaml.clearCache();
         // R7：释放头颅贴图(PlayerSkin)去重缓存（Read 仅加载期使用，运行期不再调 Read.item/recipe）。
         Read.clearSkinCache();
-        WT.plugin.getLogger().info("基础内容加载完成，耗时 " + (System.currentTimeMillis() - t) + "ms");
+        WT.plugin.getLogger().info("Base content loaded in " + (System.currentTimeMillis() - t) + "ms");
     }
 
     /** 第一遍：把各物品/机器的展示堆加入 WT.preload，使后续配方解析能跨文件按 id 引用。 */
@@ -60,7 +60,7 @@ public final class Setup {
                         WT.preload.put(effId, display);
                     }
                 } catch (Exception e) {
-                    WT.log("预加载展示物品 " + id + " 失败，跳过: " + e);
+                    WT.log("Preloading display item " + id + " failed; skipping: " + e);
                 }
             }
         }

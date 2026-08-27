@@ -481,9 +481,9 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
         org.bukkit.inventory.ItemStack it = new org.bukkit.inventory.ItemStack(org.bukkit.Material.BOOK);
         org.bukkit.inventory.meta.ItemMeta meta = it.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(org.bukkit.ChatColor.GREEN + "配方补全");
+            meta.setDisplayName(org.bukkit.ChatColor.GREEN + "Recipe Fill");
             java.util.List<String> lore = new java.util.ArrayList<>();
-            lore.add(org.bukkit.ChatColor.GRAY + "选择完整配方后自动从背包填充材料");
+            lore.add(org.bukkit.ChatColor.GRAY + "Select a complete recipe to fill ingredients from your inventory");
             meta.setLore(lore);
             it.setItemMeta(meta);
         }
@@ -497,7 +497,7 @@ public class WTRecipeMachine extends AContainer implements RecipeDisplayItem {
             java.util.List<String> lore = meta.getLore() != null
                     ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             lore.add("");
-            lore.add(org.bukkit.ChatColor.GRAY + "耗时: " + (r.getTicks() / 2) + "s");
+            lore.add(org.bukkit.ChatColor.GRAY + "Time: " + (r.getTicks() / 2) + "s");
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }

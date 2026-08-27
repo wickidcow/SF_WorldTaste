@@ -56,7 +56,7 @@ public final class FoodHelper {
                 meta.setFood(fc);
             } catch (Throwable e) {
                 ok[0] = false;
-                WT.log("FoodComponent 应用失败: " + e);
+                WT.log("Failed to apply FoodComponent: " + e);
             }
         });
         return ok[0];

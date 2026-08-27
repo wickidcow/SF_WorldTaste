@@ -23,7 +23,7 @@ public final class RegisterConditions {
             String c = raw.trim();
             if (c.isEmpty()) continue;
             if (!eval(c)) {
-                if (reg.getBoolean("warn", false)) WT.log("注册条件不满足，跳过: " + c);
+                if (reg.getBoolean("warn", false)) WT.log("Registration conditions not met; skipping: " + c);
                 return false;
             }
         }

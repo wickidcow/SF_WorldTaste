@@ -22,17 +22,17 @@ public final class RecipeTypes {
             try {
                 ItemStack display = Read.item(s, false);
                 if (display == null) {
-                    WT.log("recipe_types " + key + ": 无图标，跳过");
+                    WT.log("recipe_types " + key + ": icon missing; skipping");
                     continue;
                 }
                 RecipeType rt = new RecipeType(new NamespacedKey(WT.plugin, key.toLowerCase(Locale.ROOT)), display);
                 WT.recipeTypes.put(key.toUpperCase(Locale.ROOT), rt);
                 ok++;
             } catch (Exception e) {
-                WT.log("recipe_types " + key + " 失败: " + e);
+                WT.log("recipe_types " + key + " failed: " + e);
             }
         }
-        WT.plugin.getLogger().info("recipe_types.yml: 注册 " + ok);
+        WT.plugin.getLogger().info("recipe_types.yml: registered " + ok);
     }
 
     /** 解析 recipe_type 字符串：先查自定义，再映射标准常量，最后回退 NULL。 */
@@ -66,7 +66,7 @@ public final class RecipeTypes {
             case "GOLD_PAN": return RecipeType.GOLD_PAN;
             case "HEATED_PRESSURE_CHAMBER": return RecipeType.HEATED_PRESSURE_CHAMBER;
             default:
-                WT.log("未知 recipe_type: " + name + "，回退为 NULL");
+                WT.log("Unknown recipe_type: " + name + ", falling back to NULL");
                 return RecipeType.NULL;
         }
     }
