@@ -9,14 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.configuration.ConfigurationSection;
 
-/**
- * English presentation helpers for the original WorldTaste content pack.
- *
- * <p>The original data contains thousands of Chinese display strings. We keep all
- * configuration keys and Slimefun IDs unchanged for save/recipe compatibility, but
- * translate common UI text and use stable IDs as an English fallback for names that
- * have not yet received a hand-written translation.</p>
- */
+/** English presentation helpers for the original WorldTaste content pack. */
 public final class EnglishText {
 
     private static final Pattern CJK = Pattern.compile("[\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF]");
@@ -26,6 +19,7 @@ public final class EnglishText {
 
     private static final Map<String, String> EXACT = new LinkedHashMap<>();
     private static final Map<String, String> FRAGMENTS = new LinkedHashMap<>();
+    private static final Map<String, String> GROUP_NAMES = new LinkedHashMap<>();
 
     static {
         // Slimefun guide groups.
@@ -67,6 +61,15 @@ public final class EnglishText {
         exact("&f&l日料", "&f&lJapanese Cuisine");
         exact("&f&l烘焙", "&f&lBaking");
 
+        // Common information items.
+        exact("&f&l信息", "&f&lInformation");
+        exact("&f&l版本号", "&f&lVersion Information");
+        exact("&f&l鸣谢", "&f&lCredits");
+        exact("&a&n遇到问题了？", "&a&nNeed Help?");
+        exact("&e&l后记", "&e&lProject Notes");
+        exact("&f&l贴士", "&f&lTips");
+        exact("&f&l百味钓竿综合概率公示", "&f&lWorldTaste Fishing Odds");
+
         // Machine/menu labels from menus.yml.
         exact("§2§l普忒头精炼机", "§2§lPotato Refinery");
         exact("§4§l屠宰机", "§4§lButchering Machine");
@@ -100,13 +103,54 @@ public final class EnglishText {
         exact("§f§l电饭煲", "§f§lRice Cooker");
         exact("§f§l食品原料加工机", "§f§lFood Ingredient Processor");
 
-        // Common food/lore strings.
+        // Common food/lore strings and useful culinary fragments.
         exact("§7§o恢复 §b§o1.0 §7§o点饥饿值和饱和度", "§7§oRestores §b§o1.0 §7§ohunger and saturation");
         exact("§7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度", "§7§oRestores §b§o3.0 §7§ohunger and saturation");
         exact("§7§o饮用后可获得强力药水效果", "§7§oGrants powerful potion effects when consumed");
         exact("§7我建议你给老鼠吃这个", "§7I suggest feeding this to a rat");
 
-        // Guide and interaction text. These also make concatenated messages readable.
+        fragment("冰激凌", "Ice Cream");
+        fragment("冰淇淋", "Ice Cream");
+        fragment("牛肉", "Beef");
+        fragment("猪肉", "Pork");
+        fragment("鸡肉", "Chicken");
+        fragment("羊肉", "Lamb");
+        fragment("海鲜", "Seafood");
+        fragment("面包", "Bread");
+        fragment("蛋糕", "Cake");
+        fragment("饼干", "Cookie");
+        fragment("奶酪", "Cheese");
+        fragment("黄油", "Butter");
+        fragment("巧克力", "Chocolate");
+        fragment("咖啡", "Coffee");
+        fragment("牛奶", "Milk");
+        fragment("奶茶", "Milk Tea");
+        fragment("果汁", "Juice");
+        fragment("苹果", "Apple");
+        fragment("香蕉", "Banana");
+        fragment("草莓", "Strawberry");
+        fragment("西瓜", "Watermelon");
+        fragment("葡萄", "Grape");
+        fragment("番茄", "Tomato");
+        fragment("土豆", "Potato");
+        fragment("马铃薯", "Potato");
+        fragment("胡萝卜", "Carrot");
+        fragment("洋葱", "Onion");
+        fragment("大蒜", "Garlic");
+        fragment("蘑菇", "Mushroom");
+        fragment("鸡蛋", "Egg");
+        fragment("米饭", "Rice");
+        fragment("炒饭", "Fried Rice");
+        fragment("面条", "Noodles");
+        fragment("香肠", "Sausage");
+        fragment("培根", "Bacon");
+        fragment("蜂蜜", "Honey");
+        fragment("烤", "Grilled ");
+        fragment("炸", "Fried ");
+        fragment("蒸", "Steamed ");
+        fragment("煮", "Boiled ");
+
+        // Guide and interaction text.
         fragment("尘世百味", "WorldTaste");
         fragment("合成配方", "Crafting Recipe");
         fragment("选择配方", "Select Recipe");
@@ -142,6 +186,39 @@ public final class EnglishText {
         fragment("恭喜你钓到了", "You caught");
         fragment("云朵", "Cloud");
         fragment("乌云", "Dark Cloud");
+
+        group("worldtaste", "WorldTaste");
+        group("ws_cfzs", "Kitchen & Shop Decor");
+        group("ws_zhongzi", "Crop Seeds");
+        group("ws_zhishi", "Fermented Food");
+        group("ws_yan", "Cigarettes");
+        group("ws_hongbei", "Baking");
+        group("ws_tuzai", "Butchering Ingredients");
+        group("ws_info", "Information");
+        group("ws_jiqi", "Kitchen Tools");
+        group("ws_zuowu", "Crops");
+        group("ws_kuaican", "Fast Food");
+        group("ws_zhongcan", "Chinese Cuisine");
+        group("ws_tang", "Soups & Stews");
+        group("ws_kaorou", "Grilled Meat");
+        group("ws_tieshi", "Tips");
+        group("ws_shicai", "Ingredients");
+        group("ws_roulei", "Meat & Seafood");
+        group("ws_bingjiling", "Ice Cream & Candy");
+        group("ws_riliao", "Japanese Cuisine");
+        group("ws_dangao", "Desserts");
+        group("ws_lingshi", "Snacks");
+        group("ws_gongju", "Tools");
+        group("ws_dongwu", "Animals & Eggs");
+        group("ws_yingliao", "Beverages");
+        group("ws_dacan", "Strange Cuisine");
+        group("ws_wanzi", "Specialty Meatballs");
+        group("ws_guoqie", "Cut Fruit");
+        group("ws_guantou", "Canned Food");
+        group("ws_yuebing", "Mid-Autumn Mooncakes");
+        group("ws_luojishipin", "Logic Food");
+        group("ws_chagongyi", "Tea Roasting");
+        group("ws_shengri", "Happy Birthday");
     }
 
     private EnglishText() {}
@@ -154,11 +231,14 @@ public final class EnglishText {
         FRAGMENTS.put(source, english);
     }
 
+    private static void group(String id, String english) {
+        GROUP_NAMES.put(id.toLowerCase(Locale.ROOT), english);
+    }
+
     public static boolean containsChinese(String text) {
         return text != null && CJK.matcher(text).find();
     }
 
-    /** Translate exact/common UI phrases without changing IDs or formatting codes. */
     public static String translate(String text) {
         if (text == null || text.isEmpty() || !containsChinese(text)) return text;
         String exact = EXACT.get(text);
@@ -172,34 +252,40 @@ public final class EnglishText {
     }
 
     /**
-     * Translate an item/group display name. If no exact translation is known, use the
-     * stable surrounding configuration ID and preserve the original formatting prefix.
+     * Translate an item/group display name while preserving stable IDs underneath.
+     * Unknown Chinese names never expose pinyin-like internal IDs to players.
      */
     public static String displayName(ConfigurationSection section, String original, String material) {
         if (original == null || original.isEmpty() || !containsChinese(original)) return original;
         String translated = translate(original);
-        if (!containsChinese(translated)) return translated;
+        if (!containsChinese(translated)) return cleanSpacing(translated);
 
-        String id = findStableId(section);
-        if (id == null || id.isBlank()) id = material;
-        String fallback = titleCaseId(id);
-        if (fallback.isBlank()) fallback = "WorldTaste Item";
+        String fallback = null;
+        String stableId = findStableId(section);
+        if (stableId != null) fallback = GROUP_NAMES.get(stableId.toLowerCase(Locale.ROOT));
+
+        if (fallback == null) {
+            String groupId = findItemGroup(section);
+            String groupName = groupId == null ? null : GROUP_NAMES.get(groupId.toLowerCase(Locale.ROOT));
+            if (groupName != null) fallback = groupName + " Item";
+        }
+
+        if (fallback == null && isReadableMaterial(material)) {
+            fallback = titleCaseId(material);
+        }
+        if (fallback == null || fallback.isBlank()) fallback = "WorldTaste Item";
 
         Matcher matcher = FORMAT_PREFIX.matcher(original);
         String prefix = matcher.find() ? matcher.group(1) : "";
         return prefix + fallback;
     }
 
-    /**
-     * Translate common lore phrases and omit lines that still contain untranslated CJK.
-     * This guarantees English-only player-facing lore without corrupting content IDs.
-     */
     public static List<String> lore(List<String> original) {
         if (original == null || original.isEmpty()) return original;
         List<String> out = new ArrayList<>(original.size());
         for (String line : original) {
             String translated = translate(line);
-            if (!containsChinese(translated)) out.add(translated);
+            if (!containsChinese(translated)) out.add(cleanSpacing(translated));
         }
         return out;
     }
@@ -209,6 +295,16 @@ public final class EnglishText {
         while (current != null) {
             String name = current.getName();
             if (isUsefulId(name)) return name;
+            current = current.getParent();
+        }
+        return null;
+    }
+
+    private static String findItemGroup(ConfigurationSection section) {
+        ConfigurationSection current = section;
+        while (current != null) {
+            String group = current.getString("item_group");
+            if (group != null && !group.isBlank()) return group;
             current = current.getParent();
         }
         return null;
@@ -228,6 +324,16 @@ public final class EnglishText {
                 && !v.equals("work")
                 && !v.equals("drops")
                 && !v.equals("weighteddrops");
+    }
+
+    private static boolean isReadableMaterial(String material) {
+        if (material == null || material.isBlank() || material.length() > 40) return false;
+        String lower = material.toLowerCase(Locale.ROOT);
+        return !lower.startsWith("http") && !lower.startsWith("ey") && !lower.startsWith("ew");
+    }
+
+    private static String cleanSpacing(String text) {
+        return text.replaceAll(" {2,}", " ").trim();
     }
 
     public static String titleCaseId(String id) {
