@@ -20,7 +20,7 @@ WorldTaste brings a huge collection of food, crops, fishing content, butchering,
 [InfinityExpansion2](https://github.com/wickidcow/SF_InfinityExpansion2) ·
 [Report a Bug](https://github.com/wickidcow/SF_WorldTaste/issues)
 
-Current compatibility line: **WorldTaste 1.9.0**
+Current compatibility line: **WorldTaste 1.0.9**
 
 </div>
 
@@ -76,7 +76,7 @@ GitHub Actions artifacts are ZIP archives by design, so this project does **not*
 Development and version releases publish the compiled JAR directly through [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases):
 
 ```text
-SF_WorldTaste1.9.0.jar
+SF_WorldTaste1.0.9.jar
 ```
 
 No ZIP extraction is required.
@@ -88,7 +88,7 @@ No ZIP extraction is required.
 1. Stop the Minecraft server normally.
 2. Create a backup of the server and Slimefun data.
 3. Install a compatible build of [Slimefun Legacy](https://github.com/wickidcow/Slimefun-Legacy).
-4. Download `SF_WorldTaste1.9.0.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
+4. Download `SF_WorldTaste1.0.9.jar` from [GitHub Releases](https://github.com/wickidcow/SF_WorldTaste/releases).
 5. Place the JAR in the server's `plugins/` directory.
 6. Remove or archive any older WorldTaste JAR so only one copy can load.
 7. Start the server and review the console for WorldTaste, Slimefun or optional-addon compatibility warnings.
@@ -206,7 +206,7 @@ The normal local build uses the bundled Slimefun compile dependency. To test aga
 Output:
 
 ```text
-build/libs/SF_WorldTaste1.9.0.jar
+build/libs/SF_WorldTaste1.0.9.jar
 ```
 
 CI builds Slimefun Legacy from current source first and passes that generated JAR to WorldTaste through `-PslimefunJar`.
