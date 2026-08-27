@@ -20,6 +20,7 @@ public final class EnglishText {
     private static final Map<String, String> EXACT = new LinkedHashMap<>();
     private static final Map<String, String> FRAGMENTS = new LinkedHashMap<>();
     private static final Map<String, String> GROUP_NAMES = new LinkedHashMap<>();
+    private static final Map<String, String> ITEM_ID_NAMES = new LinkedHashMap<>();
 
     static {
         // Slimefun guide groups.
@@ -70,7 +71,7 @@ public final class EnglishText {
         exact("&f&l贴士", "&f&lTips");
         exact("&f&l百味钓竿综合概率公示", "&f&lWorldTaste Fishing Odds");
 
-        // Machine/menu labels from menus.yml.
+        // Machine/menu labels.
         exact("§2§l普忒头精炼机", "§2§lPotato Refinery");
         exact("§4§l屠宰机", "§4§lButchering Machine");
         exact("§6§l人造肉合成机", "§6§lSynthetic Meat Fabricator");
@@ -103,19 +104,74 @@ public final class EnglishText {
         exact("§f§l电饭煲", "§f§lRice Cooker");
         exact("§f§l食品原料加工机", "§f§lFood Ingredient Processor");
 
-        // Common food/lore strings and useful culinary fragments.
+        // Common food/lore strings.
         exact("§7§o恢复 §b§o1.0 §7§o点饥饿值和饱和度", "§7§oRestores §b§o1.0 §7§ohunger and saturation");
         exact("§7§o恢复 §b§o3.0 §7§o点饥饿值和饱和度", "§7§oRestores §b§o3.0 §7§ohunger and saturation");
         exact("§7§o饮用后可获得强力药水效果", "§7§oGrants powerful potion effects when consumed");
         exact("§7我建议你给老鼠吃这个", "§7I suggest feeding this to a rat");
 
+        // Longest/common culinary phrases first so names become semantic English.
+        fragment("黄鳍金枪鱼", "Yellowfin Tuna");
+        fragment("深海水母", "Deep-Sea Jellyfish");
+        fragment("幽匿水母", "Sculk Jellyfish");
+        fragment("水泡金鱼", "Bubble-Eye Goldfish");
+        fragment("钻石河豚", "Diamond Pufferfish");
+        fragment("史莱姆鱼", "Slime Fish");
+        fragment("水晶鱼", "Crystal Fish");
+        fragment("幽匿鱼", "Sculk Fish");
+        fragment("欧洲鲈鱼", "European Perch");
+        fragment("金枪鱼", "Tuna");
+        fragment("鹦鹉螺", "Nautilus");
+        fragment("寄居蟹", "Hermit Crab");
+        fragment("海洋之心", "Heart of the Sea");
+        fragment("鹦鹉螺壳", "Nautilus Shell");
+        fragment("破旧的渔网", "Worn Fishing Net");
+        fragment("废弃的氧气罐", "Discarded Oxygen Tank");
         fragment("冰激凌", "Ice Cream");
         fragment("冰淇淋", "Ice Cream");
+        fragment("炒饭", "Fried Rice");
         fragment("牛肉", "Beef");
         fragment("猪肉", "Pork");
         fragment("鸡肉", "Chicken");
         fragment("羊肉", "Lamb");
+        fragment("牛排", "Steak");
         fragment("海鲜", "Seafood");
+        fragment("鱿鱼", "Squid");
+        fragment("章鱼", "Octopus");
+        fragment("螃蟹", "Crab");
+        fragment("龙虾", "Lobster");
+        fragment("河豚", "Pufferfish");
+        fragment("鲑鱼", "Salmon");
+        fragment("鳕鱼", "Cod");
+        fragment("鲶鱼", "Catfish");
+        fragment("鲇鱼", "Catfish");
+        fragment("鲈鱼", "Perch");
+        fragment("鲤鱼", "Carp");
+        fragment("金鱼", "Goldfish");
+        fragment("鲨鱼", "Shark");
+        fragment("鲸鱼", "Whale");
+        fragment("蓝鲸", "Blue Whale");
+        fragment("水母", "Jellyfish");
+        fragment("海星", "Starfish");
+        fragment("海胆", "Sea Urchin");
+        fragment("海参", "Sea Cucumber");
+        fragment("鲍鱼", "Abalone");
+        fragment("生蚝", "Oyster");
+        fragment("海螺", "Conch");
+        fragment("河虾", "River Shrimp");
+        fragment("土虾", "Shrimp");
+        fragment("虾", "Shrimp");
+        fragment("乌龟", "Turtle");
+        fragment("鳗鱼", "Eel");
+        fragment("梭鱼", "Barracuda");
+        fragment("琵琶鱼", "Anglerfish");
+        fragment("带鱼", "Ribbonfish");
+        fragment("海兔", "Sea Hare");
+        fragment("贝壳", "Seashell");
+        fragment("海葵", "Sea Anemone");
+        fragment("藤壶", "Barnacle");
+        fragment("蛏子", "Razor Clam");
+        fragment("海绵", "Sponge");
         fragment("面包", "Bread");
         fragment("蛋糕", "Cake");
         fragment("饼干", "Cookie");
@@ -139,16 +195,32 @@ public final class EnglishText {
         fragment("大蒜", "Garlic");
         fragment("蘑菇", "Mushroom");
         fragment("鸡蛋", "Egg");
+        fragment("鸭蛋", "Duck Egg");
         fragment("米饭", "Rice");
-        fragment("炒饭", "Fried Rice");
         fragment("面条", "Noodles");
         fragment("香肠", "Sausage");
         fragment("培根", "Bacon");
         fragment("蜂蜜", "Honey");
+        fragment("汉堡", "Burger");
+        fragment("披萨", "Pizza");
+        fragment("三明治", "Sandwich");
+        fragment("热狗", "Hot Dog");
+        fragment("薯条", "French Fries");
+        fragment("糖果", "Candy");
+        fragment("布丁", "Pudding");
+        fragment("寿司", "Sushi");
+        fragment("拉面", "Ramen");
+        fragment("豆腐", "Tofu");
+        fragment("茶", "Tea");
+        fragment("汤", "Soup");
         fragment("烤", "Grilled ");
         fragment("炸", "Fried ");
         fragment("蒸", "Steamed ");
         fragment("煮", "Boiled ");
+        fragment("红烧", "Braised ");
+        fragment("香辣", "Spicy ");
+        fragment("麻辣", "Mala ");
+        fragment("糖醋", "Sweet & Sour ");
 
         // Guide and interaction text.
         fragment("尘世百味", "WorldTaste");
@@ -219,6 +291,82 @@ public final class EnglishText {
         group("ws_luojishipin", "Logic Food");
         group("ws_chagongyi", "Tea Roasting");
         group("ws_shengri", "Happy Birthday");
+
+        // Common historical IDs. These are presentation-only aliases; real IDs stay unchanged.
+        itemId("youniyu", "Squid");
+        itemId("youyu", "Squid");
+        itemId("pangxie", "Crab");
+        itemId("longxia", "Lobster");
+        itemId("lanlongxia", "Blue Lobster");
+        itemId("hetun", "Pufferfish");
+        itemId("guiyu", "Salmon");
+        itemId("xueyu", "Cod");
+        itemId("jinqiangyu", "Tuna");
+        itemId("huangqijinqiangyu", "Yellowfin Tuna");
+        itemId("liyu", "Carp");
+        itemId("jinyu", "Goldfish");
+        itemId("niany u", "Catfish");
+        itemId("nianyu", "Catfish");
+        itemId("bingyu", "Icefish");
+        itemId("xia", "Shrimp");
+        itemId("hexi", "River Shrimp");
+        itemId("hexia", "River Shrimp");
+        itemId("haixing", "Starfish");
+        itemId("haidan", "Sea Urchin");
+        itemId("haishen", "Sea Cucumber");
+        itemId("baoyu", "Abalone");
+        itemId("shenghao", "Oyster");
+        itemId("hailuo", "Conch");
+        itemId("shayu", "Shark");
+        itemId("jingyu", "Whale");
+        itemId("lanjing", "Blue Whale");
+        itemId("zhangyu", "Octopus");
+        itemId("shuimu", "Jellyfish");
+        itemId("wugui", "Turtle");
+        itemId("manyu", "Eel");
+        itemId("suoyu", "Barracuda");
+        itemId("pipayu", "Anglerfish");
+        itemId("daiyu", "Ribbonfish");
+        itemId("haitu", "Sea Hare");
+        itemId("hanbao", "Burger");
+        itemId("pisa", "Pizza");
+        itemId("sanmingzhi", "Sandwich");
+        itemId("regou", "Hot Dog");
+        itemId("shutiao", "French Fries");
+        itemId("niupai", "Steak");
+        itemId("niunai", "Milk");
+        itemId("jidan", "Egg");
+        itemId("mi anbao", "Bread");
+        itemId("mianbao", "Bread");
+        itemId("huangyou", "Butter");
+        itemId("nailao", "Cheese");
+        itemId("kafei", "Coffee");
+        itemId("naicha", "Milk Tea");
+        itemId("guozhi", "Juice");
+        itemId("pingguo", "Apple");
+        itemId("xiangjiao", "Banana");
+        itemId("caomei", "Strawberry");
+        itemId("xigua", "Watermelon");
+        itemId("putao", "Grape");
+        itemId("fanqie", "Tomato");
+        itemId("tudou", "Potato");
+        itemId("huluobo", "Carrot");
+        itemId("yangcong", "Onion");
+        itemId("dasuan", "Garlic");
+        itemId("mogu", "Mushroom");
+        itemId("mifan", "Rice");
+        itemId("chaofan", "Fried Rice");
+        itemId("miantiao", "Noodles");
+        itemId("xiangchang", "Sausage");
+        itemId("peigen", "Bacon");
+        itemId("fengmi", "Honey");
+        itemId("bingjiling", "Ice Cream");
+        itemId("dangao", "Cake");
+        itemId("binggan", "Cookie");
+        itemId("qiaokeli", "Chocolate");
+        itemId("shousi", "Sushi");
+        itemId("lamian", "Ramen");
+        itemId("doufu", "Tofu");
     }
 
     private EnglishText() {}
@@ -233,6 +381,10 @@ public final class EnglishText {
 
     private static void group(String id, String english) {
         GROUP_NAMES.put(id.toLowerCase(Locale.ROOT), english);
+    }
+
+    private static void itemId(String id, String english) {
+        ITEM_ID_NAMES.put(normalizeId(id), english);
     }
 
     public static boolean containsChinese(String text) {
@@ -253,31 +405,36 @@ public final class EnglishText {
 
     /**
      * Translate an item/group display name while preserving stable IDs underneath.
-     * Unknown Chinese names never expose pinyin-like internal IDs to players.
+     * We prefer the original Chinese display name as the translation source, then a
+     * curated ID alias. We never replace an unknown item with "Category Item".
      */
     public static String displayName(ConfigurationSection section, String original, String material) {
         if (original == null || original.isEmpty() || !containsChinese(original)) return original;
+
         String translated = translate(original);
         if (!containsChinese(translated)) return cleanSpacing(translated);
 
-        String fallback = null;
         String stableId = findStableId(section);
-        if (stableId != null) fallback = GROUP_NAMES.get(stableId.toLowerCase(Locale.ROOT));
+        String fallback = translatedId(stableId);
 
-        if (fallback == null) {
-            String groupId = findItemGroup(section);
-            String groupName = groupId == null ? null : GROUP_NAMES.get(groupId.toLowerCase(Locale.ROOT));
-            if (groupName != null) fallback = groupName + " Item";
+        if (fallback == null && stableId != null) {
+            fallback = GROUP_NAMES.get(stableId.toLowerCase(Locale.ROOT));
         }
 
         if (fallback == null && isReadableMaterial(material)) {
             fallback = titleCaseId(material);
         }
+
+        // Last resort: keep the individual stable name visible rather than collapsing
+        // every untranslated item into a generic category label.
+        if ((fallback == null || fallback.isBlank()) && stableId != null) {
+            fallback = titleCaseId(stableId);
+        }
         if (fallback == null || fallback.isBlank()) fallback = "WorldTaste Item";
 
         Matcher matcher = FORMAT_PREFIX.matcher(original);
         String prefix = matcher.find() ? matcher.group(1) : "";
-        return prefix + fallback;
+        return prefix + cleanSpacing(fallback);
     }
 
     public static List<String> lore(List<String> original) {
@@ -290,21 +447,37 @@ public final class EnglishText {
         return out;
     }
 
+    private static String translatedId(String stableId) {
+        if (stableId == null || stableId.isBlank()) return null;
+        String normalized = normalizeId(stableId);
+        String direct = ITEM_ID_NAMES.get(normalized);
+        if (direct != null) return direct;
+
+        // Some content IDs contain a prefix or numeric suffix around a known word.
+        for (Map.Entry<String, String> entry : ITEM_ID_NAMES.entrySet()) {
+            String key = entry.getKey();
+            if (normalized.equals(key)
+                    || normalized.startsWith(key + "_")
+                    || normalized.endsWith("_" + key)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    private static String normalizeId(String value) {
+        if (value == null) return "";
+        String id = value.trim().toLowerCase(Locale.ROOT);
+        if (id.startsWith("wt_")) id = id.substring(3);
+        if (id.startsWith("worldtaste_")) id = id.substring("worldtaste_".length());
+        return id.replace('-', '_').replace('.', '_').replace(' ', '_');
+    }
+
     private static String findStableId(ConfigurationSection section) {
         ConfigurationSection current = section;
         while (current != null) {
             String name = current.getName();
             if (isUsefulId(name)) return name;
-            current = current.getParent();
-        }
-        return null;
-    }
-
-    private static String findItemGroup(ConfigurationSection section) {
-        ConfigurationSection current = section;
-        while (current != null) {
-            String group = current.getString("item_group");
-            if (group != null && !group.isBlank()) return group;
             current = current.getParent();
         }
         return null;
